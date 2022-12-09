@@ -1,9 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useStore } from '../store'
 const Nav = () => {
   const isAuth = localStorage.getItem('token')
   const token = useStore((state) =>state.token)
+  const navigate = useNavigate()
+  const setToken = useStore((state) => state.setToken)
     return (
         
         <nav className="navbar navbar-expand-lg navbar-light bg-white fixed-top">
@@ -21,7 +23,7 @@ const Nav = () => {
             </ul>
   
             <ul className="navbar-nav d-flex flex-row">
-             {!! isAuth ||(  token.length>5 && <li className="nav-item me-3  mr-5">
+             {(!! isAuth || !!token) &&( <li className="nav-item me-3  mr-5">
                 <Link to="Add">
                 <i class="fa-solid fa-plus"></i>
                 </Link>
@@ -34,6 +36,17 @@ const Nav = () => {
                 </Link>
 
               </li>
+              {(!! isAuth || !!token) &&( 
+              <li onClick={() => {
+                localStorage.removeItem('token')
+                setToken(false)
+                navigate('/login')
+               }  } className="nav-item me-3  mr-5">
+                <Link to="Add">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                </Link>
+              </li>)}
+
             </ul>
           </div>
         </div>

@@ -1,12 +1,15 @@
 import React from 'react'
-import {useForm} from "react-hook-form"
+import { useForm} from "react-hook-form"
 import { useLogin } from '../hooks/useLogin'
+import { useNavigate } from 'react-router-dom'
  
 const Login = () => {
   const {register,handleSubmit} = useForm()
-  const { mutate } = useLogin();
+  const { mutate ,data} = useLogin();  
+  const navigate = useNavigate()
   const onSubmit = ( value) => {
-    mutate(value)
+    mutate(value);
+    navigate("/")
   }
   return (
     <div className='container d-flex justify-content-center align-items-center' style={{ minHeight: "100vh" }}>
